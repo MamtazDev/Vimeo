@@ -13,9 +13,9 @@ const router = express.Router();
 const VideoModel = mongoose.model('Video', { url: String });
 
 
-const  client_id = "536834dbe6f5fde38ca5e913f8fe1e9f26cd0952"
-const client_secret = "glS5EFdHhmvXNFCvafQinITZ6vymrGA8oA0JKXnjW7uf0sQ2dKERG8R+6cnNcpqzeYttO/c5rbOiS0lDeK0LYUbNm2wHPVbTWREenLnJdPQ9KBnmpcLeO1BGKHE+hOjF"
-const access_token = ""
+const  client_id = "af29f9f33998daead6e58200d04fc041d4df660a"
+const client_secret = "AOGknrEYTHWqZ/FzVqMYx+vz6jkWI6UPeGS/tatfcht7LwnjFA+7xb4VzDj09Qr4LBkvRFnuU4119lRKjv/vwcl0AhTrGDu9l4QOqGjGUlsvnnK0Zfz7ZnRiac48Rl93"
+const access_token = "7266aef3c8f8afbd63feb75d52d353e7"
 
 // Set up Vimeo API client
 const vimeoClient = new Vimeo(client_id, client_secret, access_token);
@@ -47,7 +47,7 @@ const uploadToVimeo = async (filePath) => {
           params,
           function (uri) {
             // Get the metadata response from the upload and log out the Vimeo.com url
-            client.request(uri + '?fields=link', function (error, body, statusCode, headers) {
+            vimeoClient.request(uri + '?fields=link', function (error, body, statusCode, headers) {
               if (error) {
                 console.log('There was an error making the request.')
                 console.log('Server reported: ' + error) 
@@ -57,7 +57,7 @@ const uploadToVimeo = async (filePath) => {
               console.log('"' + filePath + '" has been uploaded to ' + body.link)
         
               // Make an API call to edit the title and description of the video.
-              client.request({
+              vimeoClient.request({
                 method: 'PATCH',
                 path: uri,
                 params: {
@@ -74,7 +74,7 @@ const uploadToVimeo = async (filePath) => {
                 console.log('The title and description for ' + uri + ' has been edited.')
         
                 // Make an API call to see if the video is finished transcoding.
-                client.request(
+                vimeoClient.request(
                   uri + '?fields=transcode.status',
                   function (error, body, statusCode, headers) {
                     if (error) {
